@@ -37,7 +37,9 @@ func AppendJSONToFile(fileName string, jsonData http.Response) {
 
 func getJSONAggrResults(fileName string) []http.Response {
 	jsonFile, err := os.Open(fileName)
-	check(err)
+	if err != nil {
+		fmt.Println("The result file named " + fileName + " does not exist")
+	}
 
 	var responses []http.Response
 	byteValue, _ := ioutil.ReadAll(jsonFile)
