@@ -24,14 +24,20 @@ export default function () {
     response = response,
     status = status,
     fileName = "myFilenameWithRequestsAggregated.json",
-    aggregateLevel = "onSuccess" // response with the request will not be aggregated because we set the aggregation level to "onSuccess". The default level is "onError", which is when any of the assertions from the k6 "check" function fails and the entire function returns false
+    aggregateLevel = "onSuccess" // response with the request will not be aggregated because 
+    // we set the aggregation level to "onSuccess". The default level is "onError", which is 
+    // when any of the assertions from the k6 "check" function fails and the entire function 
+    // returns false
   );
 
   // or (without the optional fields)
-  httpagg.checkRequest(response, status); // this request & response will be aggregated because we have not set the aggregation level and the default "onError" will be used. Additionally, a file will be created with the default name "httpagg.json"
+  httpagg.checkRequest(response, status); // this request & response will be aggregated because 
+  // we have not set the aggregation level and the default "onError" will be used. Additionally, 
+  // a file will be created with the default name "httpagg.json"
 
   // or
-  // IMPORTANT: We can use the "all" aggregation level to aggregate all requests regardless of the check result
+  // IMPORTANT: We can use the "all" aggregation level to aggregate all requests regardless of 
+  // the check result
   httpagg.checkRequest(
     response = response,
     status = status,
@@ -43,7 +49,8 @@ export function teardown(data) {
     httpagg.generateRaport("myFilenameWithRequestsAggregated.json", "myHtmlReport.html")
 
     // or (without the optional fields)
-    httpagg.generateRaport("myFilenameWithRequestsAggregated.json") // the default name of the html report that will be created is "httpaggReport.html"
+    httpagg.generateRaport("myFilenameWithRequestsAggregated.json") // the default name of the 
+    // html report that will be created is "httpaggReport.html"
 }
 ```
 
