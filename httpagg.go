@@ -44,7 +44,8 @@ func getJSONAggrResults(fileName string) []http.Response {
 	jsonFile, err := os.Open(fileName)
 	if err != nil {
 		fmt.Println("The result file named " + fileName + " does not exist")
-		os.Exit(0)
+		var responses []http.Response
+		return responses
 	}
 
 	var responses []http.Response
@@ -121,10 +122,11 @@ func (*Httpagg) GenerateRaport(httpaggResultsFileName string, httpaggReportFileN
 	}
 
 	responses := getJSONAggrResults(httpaggResultsFileName)
+	if len(responses) != 0 {
+		file, err := os.Create(httpaggReportFileName)
+		check(err)
 
-	file, err := os.Create(httpaggReportFileName)
-	check(err)
-
-	err = temp.Execute(file, responses)
-	check(err)
+		err = temp.Execute(file, responses)
+		check(err)
+	}
 }
