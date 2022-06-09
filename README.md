@@ -8,26 +8,30 @@ xk6 build v0.38.3 --with github.com/gpiechnik2/xk6-httpagg@latest
                                              
 ## Example
 ```javascript
+import { check } from 'k6';
+import http from 'k6/http';
 import httpagg from 'k6/x/httpagg';
 
 
 export default function () {
   const response = http.get('http://httpbin.test.k6.io/endpointThatWillReturn404Error');
   const status = check(
-    res,
+    response,
     {
       'response code was 200': (res) => res.status == 200
     }
   ); // the status variable will be false because the assertion inside does not match
 
   httpagg.checkRequest(
-    response = response,
-    status = status,
-    fileName = "myFilenameWithRequestsAggregated.json",
-    aggregateLevel = "onSuccess" // response with the request will not be aggregated because 
-    // we set the aggregation level to "onSuccess". The default level is "onError", which is 
-    // when any of the assertions from the k6 "check" function fails and the entire function 
-    // returns false
+    response,
+    status,
+    {
+        fileName: "myFilenameWithRequestsAggregated.json",
+        aggregateLevel: "onSuccess" // response with the request above will not be 
+        // aggregated because we set the  aggregation level to "onSuccess". 
+        // The default level is "onError", which is when any of the assertions from
+        // the k6 "check" function fails and the entire function returns false
+    }
   );
 
   // or (without the optional fields)
@@ -38,19 +42,18 @@ export default function () {
   // or
   // IMPORTANT: We can use the "all" aggregation level to aggregate all requests regardless of 
   // the check result
-  httpagg.checkRequest(
-    response = response,
-    status = status,
-    aggregateLevel = "all"
-  );
+  httpagg.checkRequest(response, status, {
+      aggregateLevel: "all"
+  });
 }
 
 export function teardown(data) {
     httpagg.generateRaport("myFilenameWithRequestsAggregated.json", "myHtmlReport.html")
 
     // or (without the optional fields)
-    httpagg.generateRaport("myFilenameWithRequestsAggregated.json") // the default name of the 
-    // html report that will be created is "httpaggReport.html"
+    httpagg.generateRaport() // the default name of the html report that will be created 
+    // is "httpaggReport.html". In turn, the name of the request results file that will 
+    // be checked is "httpagg.json"
 }
 ```
 
