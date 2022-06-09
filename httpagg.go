@@ -21,6 +21,11 @@ func init() {
 // Httpagg is the k6 extension
 type Httpagg struct{}
 
+type options struct {
+	fileName       string
+	aggregateLevel string
+}
+
 func AppendJSONToFile(fileName string, jsonData http.Response) {
 	f, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE, 0666)
 	check(err)
@@ -80,26 +85,26 @@ var funcMap = template.FuncMap{
 	"formatDate": formatDate,
 }
 
-func (*Httpagg) CheckRequest(response http.Response, status bool, fileName string, aggregateLevel string) {
-	if fileName == "" {
-		fileName = "httpagg.json"
+func (*Httpagg) CheckRequest(response http.Response, status bool, options options) {
+	if options.fileName == "" {
+		options.fileName = "httpagg.json"
 	}
 
-	switch aggregateLevel {
+	switch options.aggregateLevel {
 	case "onError":
 		if !status {
-			AppendJSONToFile(fileName, response)
+			AppendJSONToFile(options.fileName, response)
 		}
 	case "onSuccess":
 		if status {
-			AppendJSONToFile(fileName, response)
+			AppendJSONToFile(options.fileName, response)
 		}
 	case "all":
-		AppendJSONToFile(fileName, response)
+		AppendJSONToFile(options.fileName, response)
 	default:
 		// by default, aggregate only invalid http responses
 		if !status {
-			AppendJSONToFile(fileName, response)
+			AppendJSONToFile(options.fileName, response)
 		}
 	}
 }
