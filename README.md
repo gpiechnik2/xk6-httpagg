@@ -47,6 +47,9 @@ export function teardown(data) {
 }
 ```
 
+## Report view
+<img src="exampleView.png">
+
 ## Run sample script
 ```shell
 ./k6 run ./script.js
