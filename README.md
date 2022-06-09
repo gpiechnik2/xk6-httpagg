@@ -55,7 +55,7 @@ export function teardown(data) {
 ```
 
 ## Report view
-<img src="exampleView.png">
+<img src="exampleResultsView.png">
 
 ## Run sample script
 ```shell
