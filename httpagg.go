@@ -39,6 +39,7 @@ func getJSONAggrResults(fileName string) []http.Response {
 	jsonFile, err := os.Open(fileName)
 	if err != nil {
 		fmt.Println("The result file named " + fileName + " does not exist")
+		os.Exit(0)
 	}
 
 	var responses []http.Response
