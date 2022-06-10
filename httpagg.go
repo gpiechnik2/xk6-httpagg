@@ -22,8 +22,8 @@ func init() {
 type Httpagg struct{}
 
 type options struct {
-	fileName       string
-	aggregateLevel string
+	FileName       string `js:"fileName"`
+	AggregateLevel string `js:"aggregateLevel"`
 }
 
 func AppendJSONToFile(fileName string, jsonData http.Response) {
@@ -87,25 +87,29 @@ var funcMap = template.FuncMap{
 }
 
 func (*Httpagg) CheckRequest(response http.Response, status bool, options options) {
-	if options.fileName == "" {
-		options.fileName = "httpagg.json"
+	if options.FileName == "" {
+		options.FileName = "httpagg.json"
 	}
 
-	switch options.aggregateLevel {
+	if options.AggregateLevel == "" {
+		options.AggregateLevel = "onError"
+	}
+
+	switch options.AggregateLevel {
 	case "onError":
 		if !status {
-			AppendJSONToFile(options.fileName, response)
+			AppendJSONToFile(options.FileName, response)
 		}
 	case "onSuccess":
 		if status {
-			AppendJSONToFile(options.fileName, response)
+			AppendJSONToFile(options.FileName, response)
 		}
 	case "all":
-		AppendJSONToFile(options.fileName, response)
+		AppendJSONToFile(options.FileName, response)
 	default:
 		// by default, aggregate only invalid http responses
 		if !status {
-			AppendJSONToFile(options.fileName, response)
+			AppendJSONToFile(options.FileName, response)
 		}
 	}
 }
