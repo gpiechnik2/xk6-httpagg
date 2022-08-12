@@ -115,7 +115,9 @@ func (*Httpagg) CheckRequest(response http.Response, status bool, options option
 }
 
 func (*Httpagg) GenerateRaport(httpaggResultsFileName string, httpaggReportFileName string) {
-	temp := template.Must(template.New("index.txt").Funcs(funcMap).ParseFiles("index.txt"))
+	// temp := template.Must(template.New("index.txt").Funcs(funcMap).ParseFiles("index.txt"))
+	temp, err := template.New("index.txt").Parse(index)
+	check(err)
 
 	if httpaggResultsFileName == "" {
 		httpaggResultsFileName = "httpagg.json"
@@ -134,3 +136,5 @@ func (*Httpagg) GenerateRaport(httpaggResultsFileName string, httpaggReportFileN
 		check(err)
 	}
 }
+
+var index string
