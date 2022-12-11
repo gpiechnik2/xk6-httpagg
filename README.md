@@ -3,7 +3,7 @@
 
 ## Build
 ```shell
-xk6 build v0.38.3 --with github.com/gpiechnik2/xk6-httpagg@latest
+xk6 build --with github.com/gpiechnik2/xk6-httpagg@latest
 ```
                                              
 ## Example
