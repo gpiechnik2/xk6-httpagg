@@ -27,7 +27,7 @@ type options struct {
 }
 
 func AppendJSONToFile(fileName string, jsonData http.Response) {
-	f, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE, 0666)
+	f, err := os.OpenFile(fileName, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0666)
 	check(err)
 	defer f.Close()
 
