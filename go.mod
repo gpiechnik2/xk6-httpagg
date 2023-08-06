@@ -2,7 +2,7 @@ module github.com/gpiechnik2/xk6-httpagg
 
 go 1.19
 
-require go.k6.io/k6 v0.44.1
+require go.k6.io/k6 v0.45.1
 
 require (
 	github.com/Azure/go-ntlmssp v0.0.0-20221128193559-754e69321358 // indirect
